@@ -10,6 +10,4 @@ package noughts;
  *
  * @author ereiter
  */
-public enum BoxStatus {Empty, Human, Computer
-    
-}
+public enum BoxStatus {Empty, Human, Computer}

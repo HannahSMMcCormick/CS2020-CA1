@@ -8,7 +8,7 @@ package noughts;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//Tidy later
 /**
  *
  * @author ereiter
@@ -53,6 +53,60 @@ public class Game {
     public BoxStatus getBox(int n) {
         // return square N
         return board[n-1];
+    }
+
+    public BoxStatus Win(){
+
+        //Checking for winning combinations 
+
+        //Check rows for matches
+
+        for (int i = 0; i < 9; i += 3){
+
+            if (getBox(i+1) != BoxStatus.Empty &&
+            getBox(i+1) == getBox(i+2) &&
+            getBox(i+2) == getBox(i+3)){
+
+                return
+
+                getBox(i+1);
+
+            }  
+        }
+
+        //check columbs for matches
+
+        for (int i = 1; i <= 3; ++i){
+
+            if (getBox(i) != BoxStatus.Empty &&
+            getBox(i) == getBox(i+3) &&
+            getBox(i+3) == getBox(i+6)){
+
+                return getBox(i);
+
+
+            }
+        }
+
+        // check diagonal for matches
+
+        if (getBox(1) != BoxStatus.Empty &&
+        getBox(1) == getBox(5) &&
+        getBox(5) == getBox(9)){
+
+            return getBox(1);
+        }
+
+        if (getBox(3) != BoxStatus.Empty &&
+        getBox(3) == getBox(5) &&
+        getBox(5) == getBox(7)){
+
+            return getBox(3);
+        }
+
+
+        return BoxStatus.Empty;
+
     }
 
     public char boxChar(int n) {
