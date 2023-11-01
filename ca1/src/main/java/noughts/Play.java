@@ -7,17 +7,19 @@
  * includes main method
  */
  
- package noughts;
-
+package noughts;
 import java.util.Scanner;
-import java.util.Random; //for computer move
+
 
 class Play{
+
     Game game;   // the noughts and crosses game
     Scanner input;
 
+     // main method - just create a Play object
+
         public static void main(String[] args) {
-            // main method - just create a Play object
+           
             new Play();
         }
 
@@ -38,24 +40,23 @@ class Play{
 
             do{
 
-                // might have to change this once implement win/loss logic
-
                 if (TurnCounter == 9) {
-
+                    if (game.isTie()){
                     System.out.println("This game is a tie");
-
+                    }
                     break;
                 }
+
 
                 if (Player.equals("h")){
                     playerTurn(); // human turn
                     Player = "c";
-                    game.printBoard();
+                    game.printBoard(); // print board
 
                 }else if (Player.equals("c")){
                     computerTurn(); // computer turn
                     Player = "h";
-                    game.printBoard();
+                    game.printBoard(); // print board
                 }
 
                BoxStatus Win = game.Win();
@@ -73,6 +74,8 @@ class Play{
                 }
 
                 TurnCounter++;
+
+        
             }while(true);  
         }
     
@@ -113,29 +116,16 @@ class Play{
     
     }
 
-    public void computerTurn() {
-        // computer turn - currently does nothing other than print out a message
+    public int computerTurn() {
+
         System.out.println("Computer is thinking");
 
+        int square = game.computerMove();
 
-        //Only check for win/loose/Block from turn 4 
-        //if 
-        //(i>=4)
-
-
-        Random random = new Random();
-        int square;
-
-        do {
-
-            square = random.nextInt(9)+1;
-        // I think i need to put in logic for computer turn use player as reference
-        //remember rules for save and win
-    }while (game.getBox(square)!= BoxStatus.Empty);
-
-    game.setComputer(square);
-
-    }
+        return square;
 
 }
 
+
+
+}
