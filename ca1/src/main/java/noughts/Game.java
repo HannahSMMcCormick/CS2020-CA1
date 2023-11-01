@@ -1,6 +1,4 @@
 /*
- * Game.java
- *
  * Represents a game of noughts and crosses
  */
 
@@ -8,60 +6,67 @@ package noughts;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
-//Tidy later
-/**
- *
- * @author ereiter
- */
+import java.util.Scanner;
+
 public class Game {
 
-    
     BoxStatus[] board = new BoxStatus[9];  // board contains 9 boxes
-    
-/** Creates a new instance of game */
-    public Game() {
-        for(int i = 0; i<9; i++)
+    private Scanner input;
+
+
+    public Game(Scanner input) {
+        this.input = input;
+        for(int i = 0; i<9; i++){
             board[i] = BoxStatus.Empty;  // initially each box is empty (not taken)
-        
+        }
     }
-    
+
+    // Checks if a box is empty
     public boolean isEmpty(int n) {
-        // is a box empty?
         return (board[n-1] == BoxStatus.Empty);
     }
     
+    //Checks if box is taken by computer player
     public boolean isComputer(int n) {
-        // is a box taken by the Computer?
         return (board[n-1] == BoxStatus.Computer);
     }
     
+    //Checks if box is taken by human player
     public boolean isHuman(int n) {
-        // is a box taken by the Human?
         return (board[n-1] == BoxStatus.Human);
     }
     
-//Mentioned in Play.java 
+    //Sets square to human piece
     public void setHuman(int n) {
-        // human claims square N
         board[n-1] = BoxStatus.Human;
     }
     
+    //Sets square to computer piece
     public void setComputer(int n) {
-        // computer claims square N
         board[n-1] = BoxStatus.Computer;
     }
     
+    /*
+    * Sets square back to empty
+    * Used in computerMove to reset prediction
+    * in winning/blocking
+    */
     public void setBoxEmpty(int n){
         //set box to empty
         board[n-1] = BoxStatus.Empty;
 
     }
 
+    /*
+    *Gives status of box
+    * is human/computer
+    */
     public BoxStatus getBox(int n) {
         // return square N
         return board[n-1];
     }
 
+    //Used to check and show that game has resulted in tie
     public boolean isTie(){
 
         for (int i = 1; i <= 9; i++){
@@ -106,7 +111,7 @@ public class Game {
             }
         }
 
-        // check diagonal for matches
+        // check diagonals for matches
 
         if (getBox(1) != BoxStatus.Empty &&
         getBox(1) == getBox(5) &&
@@ -127,13 +132,13 @@ public class Game {
 
     }
     
-//Computer move rules
- public int computerMove(){
+    //Computer move rules
+    public int computerMove(){
 
-            int square = -1;
+        int square = -1;
 
 
-// Win
+    // Win
         for (int i = 1; i <= 9; i++){
 
             if(isEmpty(i)){
@@ -155,7 +160,7 @@ public class Game {
             }
 
 
-//Block
+    //Block
             if (square == -1){
 
                 for (int i = 1; i <= 9; i++){
@@ -181,7 +186,7 @@ public class Game {
         
             }
 
-// if no winning or blocking move 
+    // if no winning or blocking move 
         if (square == -1){
         Random random = new Random();
         do {
@@ -199,9 +204,33 @@ public class Game {
 
 }
 
+    //Human move rules
+    public int humanMove(int square){
+        
 
+        do{
+        System.out.print("Take a square (1-9): ");
+        square = input.nextInt();
+    
+        //Validate choosing valid input
+        if(square < 1 || square >9) {
+            System.out.println("Please enter a valid input between 1 and 9");
+        }else if (getBox(square)!= BoxStatus.Empty){
+            System.out.println("Square already taken, please take empty square");
+        }else{
+            break;
+        }
+    } while (true);
+
+        setHuman(square);
+
+        return square;
+
+    }
+
+
+    //Used to show if square is occupied by human/computer or empty
     public char boxChar(int n) {
-        // return a character which shows whether a square is empty, taken by the computer, or taken by the human
         switch (board[n-1]) {
             case Human: return 'H';
             case Computer: return 'C';
@@ -210,8 +239,8 @@ public class Game {
         return ' ';
     }
 
+    //Prints board
     public void printBoard() {
-        // print the noard on System.out
         System.out.println("Board");
         System.out.printf("| %c %c %c |\n", boxChar(1), boxChar(2), boxChar(3));
         System.out.printf("| %c %c %c |\n", boxChar(4), boxChar(5), boxChar(6));

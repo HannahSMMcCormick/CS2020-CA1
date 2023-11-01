@@ -4,36 +4,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import java.util.Scanner;
 import noughts.Game;
+import noughts.Play;
 import noughts.BoxStatus;
 
 /**
- * Unit test for simple App.
+ * Unit test for Game class
  */
 public class GameTest 
 {
   
-// Test there all squares are empty at start of game
+    // Test that all squares are empty at start of game
 
     @Test
     public void testEmptyGame()
     {
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
         for (int i = 1; i<= 9; i++){
-
             assertTrue(game.isEmpty(i));
-
         }
+        scanner.close();
     }
 
 // Outcome JUNIT tests
 
-//Test if game detects a tie
+    //Test if game detects a tie
     @Test 
     public void testIsTie(){
 
-        Game game = new Game();
+       Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
         game.setHuman(1);
         game.setComputer(2);
@@ -47,14 +50,16 @@ public class GameTest
        
         assertTrue(game.isTie());
 
+        scanner.close();
 
     }
 
-//Test if game detects a win
+    //Test if game detects a win
     @Test 
     public void testWinEnd(){
 
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
         game.setHuman(1);
         game.setComputer(2);
@@ -64,15 +69,17 @@ public class GameTest
 
 
         assertEquals(BoxStatus.Human, game.Win());
+        scanner.close();
 
 
     }
 
-//Test if game detects a loss
+    //Test if game detects a loss
     @Test 
     public void testLoseEnd(){
 
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
         game.setComputer(1);
         game.setHuman(2);
@@ -82,19 +89,21 @@ public class GameTest
 
 
         assertEquals(BoxStatus.Computer, game.Win());
+        scanner.close();
 
 
     }
 
 //Computer Player JUNIT tests
 
-// Test that the computer takes a winning move if its given the chance 
+    // Test that the computer takes a winning move if its given the chance 
 
     @Test
     public void testComputerTakeWinningMove()
     {
 
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
         game.setComputer(4);
         game.setHuman(2);
@@ -106,15 +115,18 @@ public class GameTest
 
             assertTrue(true);
 
+            scanner.close();
+
         }
 
     }
 
-//Test that the computer blocks human from taking winning move
+    //Test that the computer blocks human from taking winning move
     @Test
     public void testComputerBlocksMove(){
 
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
         game.setComputer(1);
         game.setHuman(4);
@@ -125,12 +137,16 @@ public class GameTest
 
         assertEquals(BoxStatus.Empty, result);
 
+        scanner.close();
+
         
         }
 
-  @Test 
+    //Test that computer player takes empty square
+    @Test 
     public void testComputerMakesLegalMove(){
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
         game.setHuman(1);
         game.setComputer(2);
@@ -139,11 +155,22 @@ public class GameTest
         int computerMove = game.computerMove();
 
         assertEquals(BoxStatus.Computer, game.getBox(computerMove));
+        scanner.close();
 
     }
 
+    //Test that computer chooses within the 9 squares available 
+    @Test
+    public void testComputerMoveInRange(){
 
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
 
+        int computerMove = game.computerMove();
+
+        assertTrue(computerMove >= 1 && computerMove <= 9);
+        scanner.close();
+    }
 
 }
 
